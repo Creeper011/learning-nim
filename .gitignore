@@ -2,3 +2,7 @@
 hello
 fetch_sys
 compare_scripts
+.vscode
+nimbledeps
+.env
+reddit_post

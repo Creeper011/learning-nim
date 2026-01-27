@@ -1,4 +1,5 @@
 # compare python scripts with nim scripts
+# this scripts doesn't work with scripts that needs input from user
 import std/strutils
 import osproc
 import std/times
@@ -39,7 +40,7 @@ proc compareExecutions(compareFiles: var CompareFiles) =
     let endPy = cpuTime()
     
     if pythonResult.exitCode != 0:
-        echo "Error executing Python script"
+        echo "Error executing Python script: ", pythonResult.output
         quit(1)
     
     compareFiles.pythonFile.executionTime = endPy - startPy
@@ -49,7 +50,7 @@ proc compareExecutions(compareFiles: var CompareFiles) =
     let endNim = cpuTime()
 
     if nimExecResult.exitCode != 0:
-        echo "Error executing Nim binary"
+        echo "Error executing Nim binary: ", nimExecResult.output
         quit(1)
 
     compareFiles.nimFile.executionTime = endNim - startNim
@@ -62,5 +63,5 @@ echo "Python: ", data.pythonFile.executionTime, "s"
 echo "Nim:    ", data.nimFile.executionTime, "s"
 
 if data.nimFile.executionTime < data.pythonFile.executionTime:
-    let difference = data.pythonFile.executionTime / data.nimFile.executionTime
-    echo "Nim was ", difference.formatFloat(ffDecimal, 2), "x faster than Python."
+    let ratio = data.pythonFile.executionTime / data.nimFile.executionTime
+    echo "Execution time ratio (Python / Nim): ", ratio.formatFloat(ffDecimal, 2)
