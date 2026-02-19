@@ -1,5 +1,8 @@
 import os
-# WARNING: this only works on Linux
+
+when hostOS != "linux":
+  echo "this script is only intended for linux, exiting."
+  quit(1)
 
 type 
     SystemData = object
